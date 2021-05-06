@@ -113,6 +113,8 @@ void StartShopping(FILE * File)
 
     printf("The purchased products are : \n");
     DisplayProducts(Products, PurchasedProducts);
+
+    free(Products);
 }
 
 int main()
