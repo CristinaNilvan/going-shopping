@@ -1,0 +1,7 @@
+350
+cheese,10.99
+shoes,249.49
+pan,99
+chocolate,12.5
+laptop,1899.5
+juice,5.39
