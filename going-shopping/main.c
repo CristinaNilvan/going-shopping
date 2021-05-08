@@ -17,6 +17,19 @@ FILE * OpenFile(const char * FileName)
     return File;
 }
 
+FILE * ValidateFile(const char * FileName)
+{
+    FILE * File = OpenFile(FileName);
+
+    if (!File)
+    {
+        printf("File not found.");
+        exit(5);
+    }
+
+    return File;
+}
+
 float GetAmountOfMoney(FILE * File)
 {
     float AmountOfMoney;
@@ -24,6 +37,19 @@ float GetAmountOfMoney(FILE * File)
     fscanf(File, "%f", &AmountOfMoney);
 
     return AmountOfMoney;
+}
+
+void GetPositionInStruct(ProductFeatures *Products, int * Index, int Position, char * Word)
+{
+    if (Position == 1)
+        strcpy(Products[*Index].Name, Word);
+
+    if (Position == 2)
+    {
+        Products[*Index].Price = (float)strtod(Word, NULL);
+
+        *Index += 1;
+    }
 }
 
 ProductFeatures * GetProductsFromFile(FILE * File, int * NumberOfProducts)
@@ -40,14 +66,7 @@ ProductFeatures * GetProductsFromFile(FILE * File, int * NumberOfProducts)
 
         while (Word != NULL)
         {
-            if (Position == 1)
-                strcpy(Products[Index].Name, Word);
-
-            if (Position == 2) {
-                Products[Index].Price = (float)strtod(Word, NULL);
-
-                Index += 1;
-            }
+            GetPositionInStruct(Products, &Index, Position, Word);
 
             Position += 1;
             Word = strtok(NULL, ",");
@@ -119,13 +138,7 @@ void StartShopping(FILE * File)
 
 int main()
 {
-    FILE * File = OpenFile("Products.txt");
-
-    if (!File)
-    {
-        printf("File not found.");
-        exit(5);
-    }
+    FILE * File = ValidateFile("Products.txt");
 
     StartShopping(File);
 
